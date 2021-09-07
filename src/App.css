@@ -1,4 +1,15 @@
 .App {
+  width: 100%;
+  max-height: 100vh;
+  background-color: #eef0f3;
+  overflow-y: auto;
+}
+
+/* .MuiLinearProgress-barColorPrimary {
+  background-color: green;
+} */
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +46,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import AppHeader from "./components/AppHeader";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Container from "@material-ui/core/Container";
+import Threads from "./pages/Threads";
+import CriticalSectionProblem from "./pages/CriticalSectionProblem";
+import { ThreadProvider } from "./context/ThreadContext";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ThreadProvider>
+        <SnackbarProvider preventDuplicate>
+          <div className="App">
+            <AppHeader />
+            <Container maxWidth="xl">
+              <Switch>
+                <Route exact path="/">
+                  <Threads />
+                </Route>
+                <Route exact path="/critical-section-problem">
+                  <CriticalSectionProblem />
+                </Route>
+              </Switch>
+            </Container>
+          </div>
+        </SnackbarProvider>
+      </ThreadProvider>
+    </BrowserRouter>
   );
 }
 
