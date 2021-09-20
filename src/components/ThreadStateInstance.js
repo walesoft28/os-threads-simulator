@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
-import { ThreadContext } from "../context/ThreadContext";
+import { CriticalSectionContext } from "../context/CriticalSectionContext";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ThreadLifeCycleInstance(props) {
+function ThreadStateInstance(props) {
   const { children, threadID } = props;
-  const { threads } = useContext(ThreadContext);
+  const { threads } = useContext(CriticalSectionContext);
 
   const classes = useStyles();
 
@@ -57,44 +57,32 @@ function ThreadLifeCycleInstance(props) {
         <Paper
           classes={{ root: classes.centerPaperContent }}
           className={
-            threads && threads[threadID - 1]?.isCreated && classes.pulse
+            threads && threads[threadID - 1]?.isRunnable && classes.pulse
           }
         >
-          CREATED
+          RUNNABLE
         </Paper>
       </Grid>
       <Grid item className={classes.paper}>
         <Paper
           classes={{ root: classes.centerPaperContent }}
           className={
-            threads && threads[threadID - 1]?.isRunning && classes.pulse
+            threads && threads[threadID - 1]?.isExecuting && classes.pulse
           }
         >
-          RUNNING
+          EXECUTING
         </Paper>
       </Grid>
       <Grid item className={classes.paper}>
         <Paper
           classes={{ root: classes.centerPaperContent }}
-          className={
-            threads && threads[threadID - 1]?.isSleeping && classes.pulse
-          }
+          className={threads && threads[threadID - 1]?.isDone && classes.pulse}
         >
-          BLOCKED
-        </Paper>
-      </Grid>
-      <Grid item className={classes.paper}>
-        <Paper
-          classes={{ root: classes.centerPaperContent }}
-          className={
-            threads && threads[threadID - 1]?.isTerminated && classes.pulse
-          }
-        >
-          TERMINATED
+          DONE
         </Paper>
       </Grid>
     </Grid>
   );
 }
 
-export default ThreadLifeCycleInstance;
+export default ThreadStateInstance;

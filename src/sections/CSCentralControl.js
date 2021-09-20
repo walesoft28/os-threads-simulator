@@ -12,8 +12,8 @@ import {
 import DirectionsRunIcon from "@material-ui/icons/DirectionsRun";
 import PauseIcon from "@material-ui/icons/Pause";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import { ThreadContext } from "../context/ThreadContext";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { CriticalSectionContext } from "../context/CriticalSectionContext";
 import { useSnackbar } from "notistack";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
@@ -36,26 +36,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CentralControl() {
+function CSCentralControl() {
   const [numberOfThreads, setNumberOfThreads] = useState("");
   const [paused, setPaused] = useState(false);
-  const [simulating, setSimulating] = useState(false);
   const [threadNum, setThreadNum] = useState("");
 
   const classes = useStyles();
 
-  const THREAD = useContext(ThreadContext);
+  const THREAD = useContext(CriticalSectionContext);
+
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // HANDLE THREAD CREATION
   const handleThreadCreateClick = () => {
     if (numberOfThreads !== "") {
-      setSimulating(true);
+      THREAD.setSimulating(true);
       setThreadNum(numberOfThreads);
       setNumberOfThreads("");
       THREAD.createThread(numberOfThreads);
-      enqueueSnackbar(`${numberOfThreads} Threads Created and READY to run!`, {
-        variant: "info",
+      enqueueSnackbar(`${numberOfThreads} Threads Created!`, {
+        variant: "success",
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -75,54 +75,28 @@ function CentralControl() {
     }
   };
 
-  // HANDLE THREAD RUNNING
-  const handleRunAllClick = () => {
-    if (threadNum) {
-      console.log(`Time to run!`);
-      THREAD.runAll();
-      enqueueSnackbar(`Running All ${threadNum} Threads! `, {
-        variant: "info",
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "left",
-        },
-      });
-      setThreadNum("");
-    } else {
-      enqueueSnackbar(`You need to create threads first! `, {
-        variant: "error",
-        anchorOrigin: {
-          vertical: "bottom",
-          horizontal: "left",
-        },
-      });
-    }
-  };
-
   // HANDLE THREAD TERMINATION
   const handleThreadTermination = () => {
-    if (simulating) {
+    if (THREAD.simulating) {
       const confirm = window.confirm(
         "Clicking OK will TERMINATE ALL THREADS and end this round of Simulation. If this is not what you want, Click CANCEL"
       );
       if (confirm) {
         THREAD.createThread("");
-        enqueueSnackbar(
-          `All Threads Terminated, click the REFRESH ICON for a fresh simulation`,
-          {
-            variant: "info",
-            anchorOrigin: {
-              vertical: "bottom",
-              horizontal: "center",
-            },
-          }
-        );
-        setSimulating(false);
+        THREAD.setExecutingThread([]);
+        enqueueSnackbar(`All Threads Terminated, Begin a fresh simulation`, {
+          variant: "info",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "center",
+          },
+        });
+        THREAD.setSimulating(false);
         setNumberOfThreads("");
       }
     } else {
       enqueueSnackbar(
-        `You cannot terminate what doesn't exist. You should create a thread first! `,
+        `You cannot terminate what doesn't exist. You should create threads first! `,
         {
           variant: "error",
           anchorOrigin: {
@@ -132,12 +106,6 @@ function CentralControl() {
         }
       );
     }
-  };
-
-  // HANDLE THREAD PAUSE/RESUME
-  const handlePauseResumeClick = () => {
-    setPaused((prev) => !prev);
-    // THREAD.pauseSimulation();
   };
 
   // UI RENDERED
@@ -158,7 +126,6 @@ function CentralControl() {
                   onChange={(e) => setNumberOfThreads(e.target.value)}
                   label="No of Threads"
                 >
-                  <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
                   <MenuItem value={3}>3</MenuItem>
                   <MenuItem value={4}>4</MenuItem>
@@ -176,6 +143,7 @@ function CentralControl() {
                 size="medium"
                 classes={{ containedPrimary: classes.button }}
                 onClick={handleThreadCreateClick}
+                disabled={THREAD.simulating}
               >
                 Create
               </Button>
@@ -184,50 +152,16 @@ function CentralControl() {
         </Grid>
         <Grid item container spacing={2}>
           <div className={classes.section}>
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Button
                 variant="outlined"
                 color="secondary"
                 size="medium"
-                endIcon={<DeleteForeverIcon />}
+                endIcon={<HighlightOffIcon />}
                 onClick={handleThreadTermination}
               >
-                Terminate All
+                End Simulation
               </Button>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="primary"
-                size="medium"
-                endIcon={<DirectionsRunIcon />}
-                classes={{ containedPrimary: classes.button }}
-                onClick={handleRunAllClick}
-              >
-                Run All
-              </Button>
-            </Grid>
-          </div>
-        </Grid>
-        <Grid item container spacing={2}>
-          <div className={classes.section}>
-            <Grid item xs={9}>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="large"
-                endIcon={paused ? <PlayArrowIcon /> : <PauseIcon />}
-                onClick={handlePauseResumeClick}
-              >
-                {paused ? "Resume Simulation" : "Pause Simulation"}
-              </Button>
-            </Grid>
-
-            <Grid item xs={3}>
-              <IconButton color="secondary" aria-label="add an alarm">
-                <RefreshIcon />
-              </IconButton>
             </Grid>
           </div>
         </Grid>
@@ -236,4 +170,4 @@ function CentralControl() {
   );
 }
 
-export default CentralControl;
+export default CSCentralControl;
