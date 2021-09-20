@@ -8,6 +8,8 @@ import ThreadControl from "../sections/ThreadControl";
 import ThreadLifeCycle from "../sections/ThreadLifeCycle";
 import Process from "../sections/Process";
 import Completed from "../sections/Completed";
+import TourGuide from "../Tour/Tour";
+import { ThreadSteps } from "../Tour/ThreadTour";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +38,10 @@ export default function Threads() {
 
   return (
     <div className={classes.root}>
+      <TourGuide enabled={true} steps={ThreadSteps} initialStep={0} />
       <Grid container spacing={3} direction="column">
         <Grid item container spacing={2}>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={3} className="thread-central-control">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="CENTRAL CONTROL" />
@@ -47,7 +50,7 @@ export default function Threads() {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={5} className="thread-life-cycle">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="THREAD LIFE-CYCLE" />
@@ -56,7 +59,7 @@ export default function Threads() {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className="thread-control">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="THREAD CONTROL" />
@@ -67,7 +70,7 @@ export default function Threads() {
         </Grid>
 
         <Grid item container spacing={1}>
-          <Grid item xs={10}>
+          <Grid item xs={10} className="thread-process">
             <div className={classes.section}>
               <Paper className={classes.paper} elevation={24}>
                 <SectionHeader sectionTitle="PROCESS (MULTI-THREADED)" />

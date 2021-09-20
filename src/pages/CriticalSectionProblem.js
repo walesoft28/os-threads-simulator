@@ -8,6 +8,8 @@ import CSThreadControl from "../sections/CSThreadControl";
 import SharedResource from "../sections/SharedResource";
 import ThreadState from "../sections/ThreadState";
 import CSProcess from "../sections/CSProcess";
+import TourGuide from "../Tour/Tour";
+import { CriticalSectionSteps } from "../Tour/CriticalSectionTour";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +38,10 @@ export default function CriticalSectionProblem() {
 
   return (
     <div className={classes.root}>
+      <TourGuide enabled={true} steps={CriticalSectionSteps} initialStep={0} />
       <Grid container spacing={3} direction="column">
         <Grid item container spacing={2}>
-          <Grid item xs={12} sm={12} md={3}>
+          <Grid item xs={12} sm={12} md={3} className="central-control">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="CENTRAL CONTROL" />
@@ -47,7 +50,7 @@ export default function CriticalSectionProblem() {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={4}>
+          <Grid item xs={12} sm={12} md={4} className="critical-section">
             <div className={classes.section}>
               <Paper
                 className={classes.paper}
@@ -60,7 +63,7 @@ export default function CriticalSectionProblem() {
             </div>
           </Grid>
 
-          <Grid item xs={12} sm={12} md={5}>
+          <Grid item xs={12} sm={12} md={5} className="thread-control">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="THREAD CONTROL" />
@@ -71,7 +74,7 @@ export default function CriticalSectionProblem() {
         </Grid>
 
         <Grid item container spacing={1}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} className="state">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="THREAD STATE" />
@@ -79,7 +82,7 @@ export default function CriticalSectionProblem() {
               </Paper>
             </div>
           </Grid>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} className="process">
             <div className={classes.section}>
               <Paper className={classes.paper}>
                 <SectionHeader sectionTitle="PROCESS (MULTI-THREADED)" />

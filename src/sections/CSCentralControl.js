@@ -16,6 +16,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { CriticalSectionContext } from "../context/CriticalSectionContext";
 import { useSnackbar } from "notistack";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import TourGuide from "../Tour/Tour";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,7 +112,12 @@ function CSCentralControl() {
   // UI RENDERED
   return (
     <div className={classes.root}>
-      <Grid container spacing={4} direction="column">
+      <Grid
+        container
+        spacing={4}
+        direction="column"
+        className="central-control"
+      >
         <Grid item container alignContent="center" spacing={2}>
           <div className={classes.section}>
             <Grid item xs={7}>
