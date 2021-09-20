@@ -24,59 +24,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SingleThreadControl({ threadNo, children }) {
-  const {
-    progress,
-    runOne,
-    runTwo,
-    runThree,
-    runFour,
-    runFive,
-    runSix,
-    runSeven,
-    sleepOne,
-    sleepTwo,
-    sleepThree,
-    sleepFour,
-    sleepFive,
-    sleepSix,
-    sleepSeven,
-    killOne,
-    killTwo,
-    killThree,
-    killFour,
-    killFive,
-    killSix,
-    killSeven,
-  } = useContext(ThreadContext);
+  const { runThread, sleepThread, killThread } = useContext(ThreadContext);
 
-  const handleThreadRun = () => {
-    if (threadNo === 1) runOne(threadNo);
-    else if (threadNo === 2) runTwo(threadNo);
-    else if (threadNo === 3) runThree(threadNo);
-    else if (threadNo === 4) runFour(threadNo);
-    else if (threadNo === 5) runFive(threadNo);
-    else if (threadNo === 6) runSix(threadNo);
-    else if (threadNo === 7) runSeven(threadNo);
+  const handleThreadRun = (id) => {
+    console.log(`Running T${id}`);
+    runThread(id);
   };
 
-  const handleThreadSleep = () => {
-    if (threadNo === 1) sleepOne(threadNo);
-    else if (threadNo === 2) sleepTwo(threadNo);
-    else if (threadNo === 3) sleepThree(threadNo);
-    else if (threadNo === 4) sleepFour(threadNo);
-    else if (threadNo === 5) sleepFive(threadNo);
-    else if (threadNo === 6) sleepSix(threadNo);
-    else if (threadNo === 7) sleepSeven(threadNo);
+  const handleThreadSleep = (id) => {
+    console.log(`Sleeping T${id}`);
+    sleepThread(id);
   };
 
-  const handleThreadTermination = () => {
-    if (threadNo === 1) killOne(threadNo);
-    else if (threadNo === 2) killTwo(threadNo);
-    else if (threadNo === 3) killThree(threadNo);
-    else if (threadNo === 4) killFour(threadNo);
-    else if (threadNo === 5) killFive(threadNo);
-    else if (threadNo === 6) killSix(threadNo);
-    else if (threadNo === 7) killSeven(threadNo);
+  const handleThreadTermination = (id) => {
+    console.log(`Killing T${id}`);
+    killThread(id);
   };
 
   return (
@@ -88,7 +50,7 @@ function SingleThreadControl({ threadNo, children }) {
         color="primary"
         endIcon={<DirectionsRunIcon />}
         size="small"
-        onClick={handleThreadRun}
+        onClick={() => handleThreadRun(threadNo)}
       >
         Run
       </Button>
@@ -97,7 +59,7 @@ function SingleThreadControl({ threadNo, children }) {
         color="primary"
         endIcon={<HotelIcon />}
         size="small"
-        onClick={handleThreadSleep}
+        onClick={() => handleThreadSleep(threadNo)}
       >
         Sleep
       </Button>
@@ -107,7 +69,7 @@ function SingleThreadControl({ threadNo, children }) {
         color="secondary"
         endIcon={<DeleteForeverIcon />}
         size="small"
-        onClick={handleThreadTermination}
+        onClick={() => handleThreadTermination(threadNo)}
       >
         Kill
       </Button>

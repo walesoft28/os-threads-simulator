@@ -69,7 +69,7 @@ export default function Threads() {
         <Grid item container spacing={1}>
           <Grid item xs={10}>
             <div className={classes.section}>
-              <Paper className={classes.paper}>
+              <Paper className={classes.paper} elevation={24}>
                 <SectionHeader sectionTitle="PROCESS (MULTI-THREADED)" />
                 <Process />
               </Paper>

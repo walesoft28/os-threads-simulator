@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
-import SingleThreadControl from "../components/SingleThreadControl";
-import { ThreadContext } from "../context/ThreadContext";
+import CSSingleThreadControl from "../components/CSSingleThreadControl";
+import { CriticalSectionContext } from "../context/CriticalSectionContext";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core";
 
@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ThreadControl() {
-  const { threads } = useContext(ThreadContext);
+  const { threads } = useContext(CriticalSectionContext);
 
   const classes = useStyles();
 
@@ -21,7 +21,7 @@ function ThreadControl() {
       <Grid container spacing={1} direction="column">
         {threads.map((thread) => {
           return (
-            <SingleThreadControl
+            <CSSingleThreadControl
               key={thread.threadID}
               threadNo={thread.threadID}
             >
@@ -30,7 +30,7 @@ function ThreadControl() {
                 label={`T${thread.threadID}`}
                 style={{ backgroundColor: thread.color }}
               ></Chip>
-            </SingleThreadControl>
+            </CSSingleThreadControl>
           );
         })}
       </Grid>
