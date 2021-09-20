@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core";
@@ -47,9 +47,15 @@ const useStyles = makeStyles((theme) => ({
 function ThreadStateInstance(props) {
   const { children, threadID } = props;
   const { threads } = useContext(CriticalSectionContext);
+  const [executing, setExecuting] = useState(false);
 
   const classes = useStyles();
 
+  useEffect(() => {
+    setExecuting(true);
+  }, [threads]);
+
+  console.log("light");
   return (
     <Grid item container spacing={2}>
       <Grid item>{children}</Grid>
@@ -57,10 +63,10 @@ function ThreadStateInstance(props) {
         <Paper
           classes={{ root: classes.centerPaperContent }}
           className={
-            threads && threads[threadID - 1]?.isRunnable && classes.pulse
+            threads && threads[threadID - 1]?.isRunning && classes.pulse
           }
         >
-          RUNNABLE
+          RUNNING
         </Paper>
       </Grid>
       <Grid item className={classes.paper}>
@@ -70,7 +76,7 @@ function ThreadStateInstance(props) {
             threads && threads[threadID - 1]?.isExecuting && classes.pulse
           }
         >
-          EXECUTING
+          EXECUTING CS
         </Paper>
       </Grid>
       <Grid item className={classes.paper}>
@@ -78,7 +84,7 @@ function ThreadStateInstance(props) {
           classes={{ root: classes.centerPaperContent }}
           className={threads && threads[threadID - 1]?.isDone && classes.pulse}
         >
-          DONE
+          EXITED CS
         </Paper>
       </Grid>
     </Grid>

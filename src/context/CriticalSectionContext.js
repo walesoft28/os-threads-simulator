@@ -18,7 +18,6 @@ function CriticalSectionProvider(props) {
   const [threads, setThreads] = useState([]);
   const [CSThreads, setCSThreads] = useState([]);
   const [executingThread, setExecutingThread] = useState([]);
-  const [running, setRunning] = useState({});
   const [simulating, setSimulating] = useState(false);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -56,21 +55,25 @@ function CriticalSectionProvider(props) {
   };
 
   const createThread = (num) => {
-    const COLORS = shuffle(createColorArray(num));
-    console.log(COLORS);
-    const threads = [];
-    for (let i = 0; i < num; i++) {
-      threads.push({
-        threadID: i + 1,
-        color: COLORS[i],
-        isRunnable: true,
-        isExecuting: false,
-        isDone: false,
-        hasRequested: false,
-        threadWidth: running?.threadWidth || 0,
-      });
+    if (num) {
+      const COLORS = shuffle(createColorArray(num));
+      console.log(COLORS);
+      const threads = [];
+      for (let i = 0; i < num; i++) {
+        threads.push({
+          threadID: i + 1,
+          color: COLORS[i],
+          isRunning: true,
+          isExecuting: false,
+          isDone: false,
+          hasRequested: false,
+        });
+      }
+      setThreads(threads);
+    } else {
+      setThreads([]);
+      document.location.reload();
     }
-    setThreads(threads);
   };
 
   const enterCriticalSection = (id) => {
@@ -87,7 +90,7 @@ function CriticalSectionProvider(props) {
     let threadExecuting = [];
     if (executingThread.length > 0) {
       const confirm = window.confirm(
-        `T${executingThread[0]?.threadID} is currently accessing it's critical section. NO OTHER thread can access it's critical section until T${executingThread[0]?.threadID} has exited. This fulfills the condition of MUTUAL EXCLUSION which states that: "ONCE ONE PROCESS (THREAD) ENTERS ITS CRITICAL SECTION, OTHER PROCESSES (THREADS) CANNOT ENTER THEIR CRITICAL SECTION UNTIL THIS PROCESS (THREAD) EXITS ITS CRITICAL SECTION." T${id} will now be marked with the "Requested Access" badge and will access it's critical section in due time to fulfill the other conditions of the Critical Section Problem Solution which is PROGRESS and FREEDOM FROM STARVATION/BOUNDED WAITING`
+        `T${executingThread[0]?.threadID} is currently accessing it's critical section. NO OTHER thread can access it's critical section until T${executingThread[0]?.threadID} has exited. This fulfills the condition of MUTUAL EXCLUSION which states that: "ONCE ONE PROCESS (THREAD) ENTERS ITS CRITICAL SECTION, OTHER PROCESSES (THREADS) CANNOT ENTER THEIR CRITICAL SECTION UNTIL THIS PROCESS (THREAD) EXITS ITS CRITICAL SECTION." T${id} will now be marked with the "Requested Access" badge after you click OK and will access it's critical section in due time to fulfill the other conditions of the Critical Section Problem Solution which is PROGRESS and FREEDOM FROM STARVATION/BOUNDED WAITING`
       );
       if (confirm) {
         setCSThreads(
@@ -102,15 +105,17 @@ function CriticalSectionProvider(props) {
     } else {
       const threadState = threads.map((thread) => {
         if (thread.threadID === id) {
-          thread.isRunnable = false;
+          thread.isRunning = true;
           thread.isExecuting = true;
           thread.isDone = false;
         }
         return thread;
       });
+
       const newThread = threads.find((thread) => thread.threadID === id);
       threadExecuting.push(newThread);
       setExecutingThread(threadExecuting);
+
       setCSThreads(CSThreads.filter((thread) => thread.threadID !== id));
       enqueueSnackbar(`T${id} has entered it's critical section`, {
         variant: "info",
@@ -126,7 +131,7 @@ function CriticalSectionProvider(props) {
     if (executingThread.length > 0 && executingThread[0]?.threadID === id) {
       const threadState = threads.map((thread) => {
         if (thread.threadID === id) {
-          thread.isRunnable = false;
+          thread.isRunning = true;
           thread.isExecuting = false;
           thread.isDone = true;
         }
@@ -142,7 +147,20 @@ function CriticalSectionProvider(props) {
 
       if (nextThread) {
         setExecutingThread([nextThread]);
+        nextThread.isExecuting = true;
+        nextThread.isRunning = true;
+        nextThread.isDone = false;
         nextThread.hasRequested = false;
+        enqueueSnackbar(
+          `T${nextThread.threadID} has entered it's critical section`,
+          {
+            variant: "info",
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "center",
+            },
+          }
+        );
       } else {
         setExecutingThread([]);
       }
@@ -151,7 +169,7 @@ function CriticalSectionProvider(props) {
       enqueueSnackbar(`T${id} has exited it's critical section`, {
         variant: "default",
         anchorOrigin: {
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         },
       });
@@ -165,33 +183,6 @@ function CriticalSectionProvider(props) {
       });
     }
   };
-
-  useEffect(() => {
-    let intervalID;
-
-    threads.map((thread) => {
-      if (thread.isRunning === true) {
-        intervalID = setInterval(() => {
-          console.log("we are there");
-          thread.threadWidth = Math.min(
-            thread.threadWidth + Math.random(),
-            100
-          );
-          setRunning(thread);
-          if (thread.threadWidth === 100) {
-            thread.isRunning = false;
-          }
-          console.log(thread.threadWidth);
-        }, 100);
-      }
-      return thread;
-    });
-
-    return () => {
-      clearInterval(intervalID);
-    };
-  }, [threads]);
-  console.log(threads);
 
   const value = {
     createThread,
