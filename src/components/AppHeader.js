@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,15 +18,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppHeader() {
   const classes = useStyles();
-
+  console.log(useHistory());
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            OS THREADS SIMULATOR
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              OS THREADS SIMULATOR
+            </Link>
           </Typography>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <Link
+            to="/threads"
+            style={{ textDecoration: "none", color: "white" }}
+          >
             <Button color="inherit">Threads</Button>
           </Link>
           <Link

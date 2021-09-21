@@ -1,7 +1,8 @@
 import "./App.css";
 import AppHeader from "./components/AppHeader";
-import { BrowserRouter, Route, Switch, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import Home from "./pages/Home";
 import Threads from "./pages/Threads";
 import CriticalSectionProblem from "./pages/CriticalSectionProblem";
 import { ThreadProvider } from "./context/ThreadContext";
@@ -19,6 +20,9 @@ function App() {
               <Container maxWidth="xl">
                 <Switch>
                   <Route exact path="/">
+                    <Home />
+                  </Route>
+                  <Route exact path="/threads">
                     <Threads />
                   </Route>
                   <Route exact path="/critical-section-problem">

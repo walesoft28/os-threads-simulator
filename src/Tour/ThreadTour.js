@@ -2,7 +2,7 @@ export const ThreadSteps = [
   {
     element: ".null",
     intro:
-      "Welcome!! ....... Close this pop up if you know your way around already or click Next for a quick tutorial",
+      "Welcome!! ....... Close this pop up or click out if you know your way around already or click Next for a quick tutorial",
   },
   {
     element: ".thread-central-control",
