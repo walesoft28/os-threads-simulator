@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SharedResource() {
-  const { threads, executingThread } = useContext(CriticalSectionContext);
+  const { executingThread } = useContext(CriticalSectionContext);
   const [executing, setExecuting] = useState(false);
   const classes = useStyles();
 
