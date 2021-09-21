@@ -2,7 +2,7 @@ export const CriticalSectionSteps = [
   {
     element: ".null",
     intro:
-      "Welcome!! ....... Close this pop up if you know your way around already or click Next for a quick tutorial",
+      "Welcome!! ....... Close this pop up or click out if you know your way around already or click Next for a quick tutorial",
   },
   {
     element: ".central-control",
