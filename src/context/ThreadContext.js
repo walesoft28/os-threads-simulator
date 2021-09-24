@@ -19,6 +19,12 @@ function ThreadProvider(props) {
   const [running, setRunning] = useState({});
   const [blocked, setBlocked] = useState(false);
   const [terminated, setTerminated] = useState(false);
+  const [processThreads, setProcessThreads] = useState([]);
+  const [done, setDone] = useState([]);
+
+  useEffect(() => {
+    setProcessThreads(threads);
+  }, [threads]);
 
   function shuffle(array) {
     var currentIndex = array.length,
@@ -96,6 +102,7 @@ function ThreadProvider(props) {
       return thread;
     });
     setThreads(newThreads);
+    setProcessThreads(newThreads);
     console.log(newThreads);
   };
 
@@ -125,14 +132,16 @@ function ThreadProvider(props) {
       }
       return thread;
     });
+
     setThreads(newThreads);
     console.log(newThreads);
   };
 
   useEffect(() => {
     let intervalID;
+    let done = [];
 
-    threads.map((thread) => {
+    const newThreads = threads.map((thread) => {
       if (thread.isRunning === true) {
         intervalID = setInterval(() => {
           console.log("we are there");
@@ -143,6 +152,8 @@ function ThreadProvider(props) {
           setRunning(thread);
           if (thread.threadWidth === 100) {
             thread.isRunning = false;
+            done.push(thread);
+            setDone([...done, thread]);
           }
           console.log(thread.threadWidth);
         }, 100);
@@ -153,7 +164,7 @@ function ThreadProvider(props) {
     return () => {
       clearInterval(intervalID);
     };
-  }, [threads]);
+  }, [processThreads, done]);
   console.log(threads);
 
   const value = {
@@ -164,10 +175,12 @@ function ThreadProvider(props) {
     terminated,
     createThread,
     threads,
+    processThreads,
     runThread,
     sleepThread,
     killThread,
     runAll,
+    done,
   };
 
   return (
@@ -189,128 +202,4 @@ export { ThreadContext, ThreadProvider };
 //       return Math.min(oldProgress + diff, 100);
 //     });
 //   }, 50);
-// };
-
-// const runThread = () => {
-//   setRunning(true);
-//   setCreated(false);
-//   setBlocked(false);
-//   setTerminated(false);
-//   const timer = setInterval(() => {
-//     setProgress((oldProgress) => {
-//       if (oldProgress === 100) {
-//         setRunning(false);
-//         return;
-//       }
-//       const diff = Math.random() * 1;
-//       return Math.min(oldProgress + diff, 100);
-//     });
-//   }, 100);
-// };
-
-// const pauseSimulation = () => {
-//   console.log("pausing things 1");
-//   setBlocked(true);
-//   setCreated(false);
-//   setRunning(false);
-//   setTerminated(false);
-//   console.log("pausing things");
-// };
-
-// HANDLE RUNNING
-//  const runOne = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runTwo = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runThree = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runFour = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runFive = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runSix = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// const runSeven = (thread) => {
-//   console.log(`Running ${thread} from Context`);
-// };
-
-// // HANDLE SLEEPING
-// const sleepOne = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepTwo = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepThree = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepFour = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepFive = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepSix = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// const sleepSeven = (thread) => {
-//   console.log(`Sleeping ${thread} from Context`);
-// };
-
-// // HANDLE KILLING
-// const killOne = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killTwo = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killThree = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killFour = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killFive = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killSix = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const killSeven = (thread) => {
-//   console.log(`Killing ${thread} from Context`);
-// };
-
-// const createThread = (num) => {
-//   setCreated(true);
-//   setRunning(false);
-//   setBlocked(false);
-//   setTerminated(false);
-//   setThreadNumber("");
-//   setThreadNumber(num);
-//   const selectedColors = createColorArray(num);
-//   setThreadColors(shuffle(selectedColors));
 // };

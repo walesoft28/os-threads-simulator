@@ -55,7 +55,7 @@ function CentralControl() {
       setNumberOfThreads("");
       THREAD.createThread(numberOfThreads);
       enqueueSnackbar(`${numberOfThreads} Threads Created and READY to run!`, {
-        variant: "info",
+        variant: "success",
         anchorOrigin: {
           vertical: "top",
           horizontal: "center",
@@ -138,6 +138,19 @@ function CentralControl() {
   const handlePauseResumeClick = () => {
     setPaused((prev) => !prev);
     // THREAD.pauseSimulation();
+  };
+
+  const handleRefresh = () => {
+    document.location.reload();
+    setTimeout(() => {
+      enqueueSnackbar(`You can begin a fresh simulation now!`, {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
+      });
+    }, 0);
   };
 
   // UI RENDERED
@@ -226,7 +239,7 @@ function CentralControl() {
 
             <Grid item xs={3}>
               <IconButton color="secondary" aria-label="add an alarm">
-                <RefreshIcon />
+                <RefreshIcon onClick={handleRefresh} />
               </IconButton>
             </Grid>
           </div>

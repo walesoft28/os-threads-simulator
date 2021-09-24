@@ -19,16 +19,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Process() {
-  const { threads } = useContext(ThreadContext);
+  const { threads, processThreads } = useContext(ThreadContext);
+  const [actualWidth, setActualWidth] = useState(null);
+  const [update, setUpdate] = useState(false);
+
   const classes = useStyles();
+
+  useEffect(() => {
+    setUpdate(true);
+  }, [processThreads]);
 
   console.log("I dey check something");
 
   return (
     <div>
       <Grid container spacing={1} direction="column">
-        {threads.length ? (
-          threads.map(({ threadID, color, threadWidth }) => {
+        {processThreads.length > 0 ? (
+          processThreads.map(({ threadID, color, threadWidth }) => {
             return (
               <Zoom>
                 <SingleThreadBlock key={threadID}>
