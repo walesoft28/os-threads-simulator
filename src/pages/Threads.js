@@ -10,6 +10,7 @@ import Process from "../sections/Process";
 import Completed from "../sections/Completed";
 import TourGuide from "../Tour/Tour";
 import { ThreadSteps } from "../Tour/ThreadTour";
+import Draggable from "react-draggable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,50 +42,66 @@ export default function Threads() {
       <TourGuide enabled={true} steps={ThreadSteps} initialStep={0} />
       <Grid container spacing={3} direction="column">
         <Grid item container spacing={2}>
-          <Grid item xs={12} sm={12} md={3} className="thread-central-control">
-            <div className={classes.section}>
-              <Paper className={classes.paper}>
-                <SectionHeader sectionTitle="CENTRAL CONTROL" />
-                <CentralControl />
-              </Paper>
-            </div>
-          </Grid>
+          <Draggable>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={3}
+              className="thread-central-control"
+            >
+              <div className={classes.section}>
+                <Paper className={classes.paper}>
+                  <SectionHeader sectionTitle="CENTRAL CONTROL" />
+                  <CentralControl />
+                </Paper>
+              </div>
+            </Grid>
+          </Draggable>
 
-          <Grid item xs={12} sm={12} md={5} className="thread-life-cycle">
-            <div className={classes.section}>
-              <Paper className={classes.paper}>
-                <SectionHeader sectionTitle="THREAD LIFE-CYCLE" />
-                <ThreadLifeCycle />
-              </Paper>
-            </div>
-          </Grid>
+          <Draggable>
+            <Grid item xs={12} sm={12} md={5} className="thread-life-cycle">
+              <div className={classes.section}>
+                <Paper className={classes.paper}>
+                  <SectionHeader sectionTitle="THREAD LIFE-CYCLE" />
+                  <ThreadLifeCycle />
+                </Paper>
+              </div>
+            </Grid>
+          </Draggable>
 
-          <Grid item xs={12} sm={12} md={4} className="thread-control">
-            <div className={classes.section}>
-              <Paper className={classes.paper}>
-                <SectionHeader sectionTitle="THREAD CONTROL" />
-                <ThreadControl />
-              </Paper>
-            </div>
-          </Grid>
+          <Draggable>
+            <Grid item xs={12} sm={12} md={4} className="thread-control">
+              <div className={classes.section}>
+                <Paper className={classes.paper}>
+                  <SectionHeader sectionTitle="THREAD CONTROL" />
+                  <ThreadControl />
+                </Paper>
+              </div>
+            </Grid>
+          </Draggable>
         </Grid>
 
         <Grid item container spacing={1}>
-          <Grid item xs={10} className="thread-process">
-            <div className={classes.section}>
-              <Paper className={classes.paper} elevation={24}>
-                <SectionHeader sectionTitle="PROCESS (MULTI-THREADED)" />
-                <Process />
-              </Paper>
-            </div>
-          </Grid>
-          <Grid item xs={2}>
-            <div className={classes.section}>
-              <Paper className={classes.paper}>
-                <Completed />
-              </Paper>
-            </div>
-          </Grid>
+          <Draggable>
+            <Grid item xs={10} className="thread-process">
+              <div className={classes.section}>
+                <Paper className={classes.paper} elevation={24}>
+                  <SectionHeader sectionTitle="PROCESS (MULTI-THREADED)" />
+                  <Process />
+                </Paper>
+              </div>
+            </Grid>
+          </Draggable>
+          <Draggable>
+            <Grid item xs={2}>
+              <div className={classes.section}>
+                <Paper className={classes.paper}>
+                  <Completed />
+                </Paper>
+              </div>
+            </Grid>
+          </Draggable>
         </Grid>
       </Grid>
     </div>

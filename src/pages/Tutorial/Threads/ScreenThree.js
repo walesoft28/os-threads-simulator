@@ -1,16 +1,16 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Bounce from "react-reveal/Fade";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -45,20 +45,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home() {
+function ScreenThree() {
   const classes = useStyles();
   return (
-    <div className={classes.heroContent}>
-      <Container maxWidth="sm">
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="textPrimary"
-          gutterBottom
-        >
-          Welcome!
-          <Wave>
+    <Bounce>
+      <div className={classes.heroContent}>
+        <Container maxWidth="sm">
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="textPrimary"
+            gutterBottom
+          >
+            Where does a thread live or exist?
+            {/* <Wave>
             <img
               alt="👋"
               draggable="false"
@@ -70,49 +71,54 @@ function Home() {
                 verticalAlign: "-0.1em",
               }}
             />
-          </Wave>
-        </Typography>
+          </Wave> */}
+          </Typography>
 
-        <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          OS Thread Simulator is an Interactive Web-based Visual Simulation
-          Software for understanding how Operating System manages threads and
-          the critical section problem.
-        </Typography>
-        <div className={classes.heroButtons}>
-          <Grid container spacing={2} justify="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                endIcon={<KeyboardArrowRightIcon />}
-              >
-                <Link
-                  style={{ color: "white", textDecoration: "none" }}
-                  to="/threads"
+          <Typography
+            variant="h5"
+            align="center"
+            color="textSecondary"
+            paragraph
+          >
+            Each thread is associated with a single process, and no thread can
+            exist outside of that process. A unique control flow is represented
+            by each thread.
+          </Typography>
+          <div className={classes.heroButtons}>
+            <Grid container spacing={2} justify="center">
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  startIcon={<ArrowBackIosIcon />}
                 >
-                  Go to Console
-                </Link>
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="large"
-                endIcon={<KeyboardArrowRightIcon />}
-              >
-                <Link
-                  to="/tutorial/threads/screen-one"
-                  style={{ color: "#3f51b5", textDecoration: "none" }}
-                  // target="_blank"
-                  // rel="noopener noreferrer"
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/tutorial/threads/screen-two"
+                  >
+                    Back
+                  </Link>
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="large"
+                  endIcon={<KeyboardArrowRightIcon />}
                 >
-                  Quick Tutorial on Threads
-                </Link>
-              </Button>
-            </Grid>
-            {/* <Grid item>
+                  <Link
+                    to="/tutorial/threads/screen-Four"
+                    style={{ color: "#3f51b5", textDecoration: "none" }}
+                    // target="_blank"
+                    // rel="noopener noreferrer"
+                  >
+                    Next
+                  </Link>
+                </Button>
+              </Grid>
+              {/* <Grid item>
               <Button variant="outlined" color="primary">
                 <a
                   href="https://github.com/walesoft28"
@@ -124,15 +130,16 @@ function Home() {
                 </a>
               </Button>
             </Grid> */}
-          </Grid>
-        </div>
-        <div className={classes.footer}></div>
-      </Container>
-    </div>
+            </Grid>
+          </div>
+          <div className={classes.footer}></div>
+        </Container>
+      </div>
+    </Bounce>
   );
 }
 
-export default Home;
+export default ScreenThree;
 
 const Wave = styled.span`
   display: inline-block;
