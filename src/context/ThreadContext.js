@@ -56,7 +56,6 @@ function ThreadProvider(props) {
 
   const createThread = (num) => {
     const COLORS = shuffle(createColorArray(num));
-    console.log(COLORS);
     const threads = [];
     for (let i = 0; i < num; i++) {
       threads.push({
@@ -91,7 +90,6 @@ function ThreadProvider(props) {
   };
 
   const runThread = (threadID) => {
-    console.log(`Running thread ${threadID} from context`);
     const newThreads = threads.map((thread) => {
       if (thread.threadID === threadID) {
         thread.isCreated = false;
@@ -103,11 +101,9 @@ function ThreadProvider(props) {
     });
     setThreads(newThreads);
     setProcessThreads(newThreads);
-    console.log(newThreads);
   };
 
   const sleepThread = (threadID) => {
-    console.log(`Sleeping thread ${threadID} from context`);
     const newThreads = threads.map((thread) => {
       if (thread.threadID === threadID) {
         thread.isCreated = false;
@@ -118,11 +114,9 @@ function ThreadProvider(props) {
       return thread;
     });
     setThreads(newThreads);
-    console.log(newThreads);
   };
 
   const killThread = (threadID) => {
-    console.log(`Killing thread ${threadID} from context`);
     const newThreads = threads.map((thread) => {
       if (thread.threadID === threadID) {
         thread.isCreated = false;
@@ -134,7 +128,6 @@ function ThreadProvider(props) {
     });
 
     setThreads(newThreads);
-    console.log(newThreads);
   };
 
   useEffect(() => {
@@ -144,7 +137,6 @@ function ThreadProvider(props) {
     const newThreads = threads.map((thread) => {
       if (thread.isRunning === true) {
         intervalID = setInterval(() => {
-          console.log("we are there");
           thread.threadWidth = Math.min(
             thread.threadWidth + Math.random(),
             100
@@ -155,7 +147,6 @@ function ThreadProvider(props) {
             done.push(thread);
             setDone([...done, thread]);
           }
-          console.log(thread.threadWidth);
         }, 100);
       }
       return thread;
@@ -165,7 +156,6 @@ function ThreadProvider(props) {
       clearInterval(intervalID);
     };
   }, [processThreads, done]);
-  console.log(threads);
 
   const value = {
     progress,
