@@ -1,4 +1,3 @@
-import { ThreeDRotation } from "@material-ui/icons";
 import React, { useEffect, createContext, useState } from "react";
 import { useSnackbar } from "notistack";
 
@@ -57,7 +56,6 @@ function CriticalSectionProvider(props) {
   const createThread = (num) => {
     if (num) {
       const COLORS = shuffle(createColorArray(num));
-      console.log(COLORS);
       const threads = [];
       for (let i = 0; i < num; i++) {
         threads.push({
